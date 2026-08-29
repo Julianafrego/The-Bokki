@@ -3,7 +3,7 @@
       <h1> My Bokkis</h1>
   </div>
 
-  <div id="bookis" class="flex flex-row gap-4">
+  <div id="bookis" class="grid grid-cols-4 lg:grid-cols-5 gap-4 justify-around content-around">
       <div>
         <button class="h-[190px] w-[136px] rounded-[4px] border-2 border-dashed border-zinc-300 bg-[#e4edf0] hover:border-zinc-400 hover:bg-[#c5d2d6]">
           <h1 class="text-5xl text-[17124d]">
@@ -12,7 +12,9 @@
         </button>
       </div>
 
-        <app-book-card/>
-        <app-book-card/>
+      @for(book of books; track book.id) {
+        <app-book-card [book]="book"/>
+      }
+
   </div>
 </section>
