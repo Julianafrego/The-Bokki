@@ -1,0 +1,22 @@
+<div class="flex flex-col h-screen w-full overflow-hidden ">
+
+  <!--barra superior-->
+  <div class="flex shrink-0 items-center gap-4 px-4 py-3 border-2px" >
+    <button type="button" (click)="back.emit()" class="rounded-full p-2 text-slate-700 transition-colors hover:bg-black/10">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+    </button>
+
+    <div class="relative mx-auto w-full max-w-md border-0.2 border-slate-200 rounded-lg shadow-sm">
+      <input type="text" placeholder="Search" class="w-full rounded-full py-2 pl-4 pr-10 text-sm text-slate-700 ">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500">
+        <circle cx="11" cy="11" r="7" />
+        <path stroke-linecap="round" d="M21 21l-4.3-4.3" />
+      </svg>
+    </div>
+
+ <div class="w-9 shrink-0"></div>
+</div>
+
