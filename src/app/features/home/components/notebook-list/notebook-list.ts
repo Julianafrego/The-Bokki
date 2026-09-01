@@ -17,7 +17,7 @@ export class NotebookList {
     },
     {
       id: 2,
-      name: 'my secondy book',
+      name: 'my second book',
       coverColor: '#6B7DB3'
     },
     {
@@ -27,7 +27,7 @@ export class NotebookList {
     },
     {
       id: 4,
-      name: 'my secondy book',
+      name: 'my second book',
       coverColor: '#6B7DB3'
     },
     {
@@ -37,7 +37,7 @@ export class NotebookList {
     },
     {
       id: 6,
-      name: 'my secondy book',
+      name: 'my second book',
       coverColor: '#6B7DB3'
     },
     {
@@ -47,7 +47,7 @@ export class NotebookList {
     },
     {
       id: 8,
-      name: 'my secondy book',
+      name: 'my second book',
       coverColor: '#6B7DB3'
     }
 
