@@ -1,0 +1,55 @@
+<!-- article aqui pois indica um conteudo/unidade que pode ser entendido separadamente-->
+
+<article class="group relative h-[215px] w-[70px] overflow-visible">
+
+    <!--lombada-->
+    <div class="flex h-[215px] w-[130px] items-end">
+        <button type="button" class="relative mb-[12px] h-[190px] w-[130px] overflow-hidden">
+            <img src="/assets/spine-book/rose-spine.png" alt="" 
+            class="pointer-events-none absolute inset-0 h-full w-full object-fill" />
+                <!-- points events none, para imagem n receber eentos do mouse, 
+                 n correr o risco de ficar na frente e não atrapalhar clique-->
+                <!-- absolute para ser posicionado em relação ao pai, 
+                 inset-0 para que fique na posição inicial (0,0), 
+                 object-fill para que a imagem preencha o espaço do botão,
+                 sem distorcer a proporção da imagem--> 
+                 
+            <span class="pointer-events-none absolute inset-0 flex items-center 
+                    justify-center px-4 text-sm font-semibold text-stone-800 [writing-mode:vertical-rl]">
+                estudo oi oi
+            </span>    
+        </button>
+    </div>
+
+    <!-- preview-->
+     <div class="flex invisible absolute w-[200px] left-full p-4 opacity-0 ml-6
+                -translate-y-1/2 top-1/2 z-50 
+                rounded-xl bg-white shadow-xl transition-all duration-200 
+                group-hover:visible group-hover:opacity-100 
+                group-focus-within:visible group-focus-within:opacity-100">
+      <!-- -translate-y-1/2 para que o elemento fique pra cima metade da propria altura,
+       assim fica no centro da lombada.
+            group-hover: quando article estiver em hover por mouse aplique tal...
+            group-focus-within: quando article estiver em focus por teclado/foco aplique tal...
+       -->
+            <div class="flex flex-1 flex-col">
+                <h2 class="text-lg font-semibold text-stone-800"> 
+                    preview livro
+                </h2>
+
+                <p class="text-sm text-stone-500">
+                    Preview do livro, n sei o que , n sei o que o que oque oque oque
+                </p>
+
+                <button
+                    type="button"
+                    class="mt-2 w-full rounded-lg bg-stone-800 px-4 py-2
+                        text-sm font-medium text-white  hover:bg-stone-700"
+                >
+                    Abrir
+                </button>
+
+            </div>
+
+     </div>
+</article>
