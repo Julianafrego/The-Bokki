@@ -1,16 +1,17 @@
 <!-- article aqui pois indica um conteudo/unidade que pode ser entendido separadamente-->
 
-<article class="group relative h-[215px] w-[70px] overflow-visible">
+<article class="group relative h-[215px] w-[80px]">
 
     <!--lombada-->
     <div class="flex h-[215px] w-[130px] items-end">
-        <button type="button" class="relative mb-[12px] h-[190px] w-[130px] overflow-hidden">
+        <button type="button" class="absolute mb-[7px] h-[190px] w-[130px] overflow-hidden">
             <img src="/assets/spine-book/rose-spine.png" alt="" 
             class="pointer-events-none absolute inset-0 h-full w-full object-fill" />
                 <!-- points events none, para imagem n receber eentos do mouse, 
                  n correr o risco de ficar na frente e não atrapalhar clique-->
                 <!-- absolute para ser posicionado em relação ao pai, 
-                 inset-0 para que fique na posição inicial (0,0), 
+                 inset-0 define top, right, bottom e left como 0, fazendo 
+                 o elemento absoluto ocupar toda a área do elemento pai,
                  object-fill para que a imagem preencha o espaço do botão,
                  sem distorcer a proporção da imagem--> 
                  
