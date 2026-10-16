@@ -16,6 +16,7 @@ export class NotebookStore {
     error = this._error.asReadonly();
 
 
+
     private async run(acao: () => Promise<void>) {
         this._loading.set(true);
         this._error.set(null);
