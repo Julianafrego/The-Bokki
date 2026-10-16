@@ -5,7 +5,7 @@
     <!--lombada-->
     <div class="flex h-[215px] w-[130px] items-end">
         <button type="button" class="absolute mb-[6px] h-[190px] w-[130px] overflow-hidden">
-            <img src="/assets/spine-book/rose-spine.png" alt="" 
+            <img [src]="imglombada" alt="lombada" 
             class="pointer-events-none absolute inset-0 h-full w-full object-fill" />
                 <!-- points events none, para imagem n receber eentos do mouse, 
                  n correr o risco de ficar na frente e não atrapalhar clique-->
@@ -17,7 +17,7 @@
                  
             <span class="pointer-events-none absolute inset-0 flex items-center 
                     justify-center px-4 text-sm font-semibold text-stone-800 [writing-mode:vertical-rl]">
-                estudo oi oi
+                        {{ notebook().title }}
             </span>    
         </button>
     </div>
@@ -35,12 +35,19 @@
        -->
             <div class="flex flex-1 flex-col">
                 <h2 class="text-lg font-semibold text-stone-800"> 
-                    preview livro
+                    {{ notebook().title }}
                 </h2>
 
                 <p class="text-sm text-stone-500">
-                    Preview do livro, n sei o que , n sei o que o que oque oque oque
+                    {{ notebook().description || 'without description.' }}
                 </p>
+
+                <div class="mt-2 flex gap-2">
+                    <button type="button" (click)="edit.emit(notebook())"
+                            class="rounded bg-[#E7B770] px-2 py-1 text-sm">Editar</button>
+                    <button type="button" (click)="remove.emit(notebook())"
+                            class="rounded bg-red-200 px-2 py-1 text-sm text-red-900">Excluir</button>
+                </div>
             </div>
 
      </div>
