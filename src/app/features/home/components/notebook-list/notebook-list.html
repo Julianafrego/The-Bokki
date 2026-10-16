@@ -55,21 +55,26 @@
         {{ editing() ? 'Editar caderno' : 'Novo caderno' }}
       </h2>
 
-      <label class="block text-sm text-stone-700">Títtle
+      <label class="block text-sm text-stone-700"> Títtle
         <input type="text" [ngModel]="title()" (ngModelChange)="title.set($event)"
           (keydown.enter)="save()"
           class="mt-1 w-full rounded border border-stone-300 px-2 py-1" />
       </label>
 
-      <label class="mt-3 block text-sm text-stone-700">Description
+      <label class="mt-3 block text-sm text-stone-700"> Description
         <textarea rows="3" [ngModel]="description()" (ngModelChange)="description.set($event)"
           class="mt-1 w-full rounded border border-stone-300 px-2 py-1"></textarea>
       </label>
 
       <div class="mt-5 flex justify-end gap-2">
-        <button type="button" (click)="formOpen.set(false)" class="px-3 py-1">Cancel</button>
+        <button type="button" (click)="formOpen.set(false)" class="px-3 py-1">
+          Cancel
+        </button>
+
         <button type="button" (click)="save()" [disabled]="!title().trim()"
-          class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">Save</button>
+          class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">
+          Save
+        </button>
       </div>
       </div>
   </div>
@@ -79,12 +84,23 @@
 @if (deleting(); as n) {
   <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
     <div class="w-[340px] rounded-xl bg-[#FAEEDD] p-6 shadow-xl">
-      <h2 class="text-lg font-semibold text-stone-800">Delete "{{ n.title }}"?</h2>
-      <p class="mt-2 text-sm text-stone-600">This action cannot be undone.</p>
+      <h2 class="text-lg font-semibold text-stone-800">
+        Delete "{{ n.title }}"?
+      </h2>
+
+      <p class="mt-2 text-sm text-stone-600">
+        This action cannot be undone.
+      </p>
+
       <div class="mt-5 flex justify-end gap-2">
-        <button type="button" (click)="deleting.set(null)" class="px-3 py-1">Cancel</button>
+        <button type="button" (click)="deleting.set(null)" class="px-3 py-1">
+          Cancel
+        </button>
+        
         <button type="button" (click)="confirmDelete()"
-          class="rounded bg-red-700 px-3 py-1 text-white">Delete</button>
+          class="rounded bg-red-700 px-3 py-1 text-white">
+            Delete
+          </button>
       </div>
     </div>
   </div>
