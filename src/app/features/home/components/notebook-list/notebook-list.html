@@ -4,6 +4,10 @@
       My Bokkis
     </h1>
 
+    @if (store.error()) {
+    <p class="mt-4 text-red-700">{{ store.error() }}</p>
+    }
+
   <div
     id="bokkis"
     class="mt-8 flex flex-col gap-y-2">
@@ -14,19 +18,23 @@
             <div class="flex h-[215px] w-[80px] shrink-0 items-end">
               <button
               type="button"
+              (click)="openCreate()"
+              aria-label="Criar novo caderno"
               class="mb-[12px] flex h-[190px] w-full items-center justify-center
                   rounded-[7px] border-2 border-dashed border-[#C99D5B]
                   bg-[#FAEEDD] hover:border-[#C99D5B] hover:bg-[#E7B770]"
-              >
+                >
                   <span class="text-5xl text-[#17124d]">
                       +
                   </span>
               </button>
             </div>
 
-            <app-notebook class="shrink-0" />
-            <app-notebook class="shrink-0" />
-            <app-notebook class="shrink-0" />
+            @for (n of store.notebooks(); track n.id) {
+              <app-notebook class="shrink-0" [notebook]="n"
+                  (edit)="openEdit($event)"
+                  (remove)="deleting.set($event)" />
+            }
        </div>
 
        <!-- prateleira-->
@@ -37,3 +45,47 @@
      </div>
   </div>
 </section>
+
+
+<!-- form to create or edit a notebook -->
+@if (formOpen()) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
+    <div class="w-[360px] rounded-xl bg-[#FAEEDD] p-6 shadow-xl">
+      <h2 class="mb-4 text-lg font-semibold text-stone-800">
+        {{ editing() ? 'Editar caderno' : 'Novo caderno' }}
+      </h2>
+
+      <label class="block text-sm text-stone-700">Título
+        <input type="text" [ngModel]="title()" (ngModelChange)="title.set($event)"
+          (keydown.enter)="save()"
+          class="mt-1 w-full rounded border border-stone-300 px-2 py-1" />
+      </label>
+
+      <label class="mt-3 block text-sm text-stone-700">Descrição
+        <textarea rows="3" [ngModel]="description()" (ngModelChange)="description.set($event)"
+          class="mt-1 w-full rounded border border-stone-300 px-2 py-1"></textarea>
+      </label>
+
+      <div class="mt-5 flex justify-end gap-2">
+        <button type="button" (click)="formOpen.set(false)" class="px-3 py-1">Cancelar</button>
+        <button type="button" (click)="save()" [disabled]="!title().trim()"
+          class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">Salvar</button>
+      </div>
+      </div>
+  </div>
+}
+
+<!-- dialog to confirm deletion -->
+@if (deleting(); as n) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
+    <div class="w-[340px] rounded-xl bg-[#FAEEDD] p-6 shadow-xl">
+      <h2 class="text-lg font-semibold text-stone-800">Excluir "{{ n.title }}"?</h2>
+      <p class="mt-2 text-sm text-stone-600">Essa ação não pode ser desfeita.</p>
+      <div class="mt-5 flex justify-end gap-2">
+        <button type="button" (click)="deleting.set(null)" class="px-3 py-1">Cancelar</button>
+        <button type="button" (click)="confirmDelete()"
+          class="rounded bg-red-700 px-3 py-1 text-white">Excluir</button>
+      </div>
+    </div>
+  </div>
+}
