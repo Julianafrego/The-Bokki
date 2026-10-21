@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+    /* wall color, base color */
+  --color-wall-top: #f7efe0;
+  --color-wall-bottom: #eedfc5;
+
+    /* bookshelf color */
+  --color-oak-100: #f0d6aa;
+  --color-oak-200: #e4c392;
+  --color-oak-300: #d2a973;
+  --color-oak-400: #c69c68;
+  --color-oak-500: #be945f;
+  --color-oak-grain: #a7794a;
+}
