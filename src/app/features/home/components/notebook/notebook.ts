@@ -3,7 +3,6 @@ import { Notebook as NotebookModel } from '../../../../data/models';
 @Component({
   imports: [],
   selector: 'app-notebook',
-  styleUrl: './notebook.css',
   templateUrl: './notebook.html',
 })
 export class Notebook {

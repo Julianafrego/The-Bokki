@@ -8,7 +8,6 @@ import { NotebookStore } from '../../../../state/notebook.store';
   selector: 'app-notebook-list',
   imports: [FormsModule, Notebook],
   templateUrl: './notebook-list.html',
-  styleUrl: './notebook-list.css',
 })
 export class NotebookList implements OnInit {
   store = inject(NotebookStore);
