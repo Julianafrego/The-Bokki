@@ -43,6 +43,9 @@
     (confirm)="confirmDelete()"
     (cancel)="deleting.set(null)">
 
-    <p class="mt-2 text-sm font-bold text-gray-500">{{ n.title }}</p>
+    <div class="mt-2 text-sm">
+      <p class="font-bold text-red-800">"{{ n.title }}"</p>
+      <p>All data in this notebook will be removed.</p>
+    </div>
   </app-confirm-dialog>
 }
