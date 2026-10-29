@@ -1,111 +1,48 @@
 <section class="m-10">
-
-    <h1 class="text-2xl font-semibold text-stone-800">
-      My Bokkis
-    </h1>
-
-    @if (store.error()) {
+  @if (store.error()) {
     <p class="mt-4 text-red-700">{{ store.error() }}</p>
-    }
+  }
 
-  <div
-    id="bokkis"
-    class="mt-8 flex flex-col gap-y-2">
-     <div class="relative">
+  <div id="bokkis" class="mt-8 flex flex-col gap-y-2">
+    <div class="relative">
+      <div class="flex h-53.75 items-end gap-x-3">
 
-       <div class="flex h-[215px] items-end gap-x-3">
-            <!-- Criar novo Bokki -->
-            <div class="flex h-[215px] w-[80px] shrink-0 items-end">
-              <button
-              type="button"
-              (click)="openCreate()"
-              aria-label="New Bokki"
-              class="mb-[12px] flex h-[190px] w-full items-center justify-center
-                  rounded-[7px] border-2 border-dashed border-[#C99D5B]
-                  bg-[#FAEEDD] hover:border-[#C99D5B] hover:bg-[#E7B770]"
-                >
-                  <span class="text-5xl text-[#17124d]">
-                      +
-                  </span>
-              </button>
-            </div>
-
-            @for (n of store.notebooks(); track n.id) {
-              <app-notebook class="shrink-0" [notebook]="n"
-                  (edit)="openEdit($event)"
-                  (remove)="deleting.set($event)" />
-            }
-       </div>
-
-       <!-- prateleira-->
-       <div class="absolute inset-x-0 bottom-0 h-[12px] rounded-sm  bg-amber-700 shadow-md "></div>
-       <!-- inset, serve para definir distancia de um elemento absolute/fixed em relação a referencia,
-         no caso, aqui por ele fica encostado na direita e esquerda do elemento pai, ocupando toda sua largura -->
-
-     </div>
-  </div>
-</section>
-
-
-<!-- form to create or edit a notebook -->
-@if (formOpen()) {
-  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
-    <div class="w-[360px] rounded-xl bg-[#FAEEDD] p-6 shadow-xl">
-      <h2 class="mb-4 text-lg font-semibold text-stone-800">
-        {{ editing() ? 'Edit Bokki' : 'New Bokki' }}
-      </h2>
-
-      <label class="block text-sm text-stone-700"> Títtle
-        <input type="text" [ngModel]="title()" (ngModelChange)="title.set($event)"
-          (keydown.enter)="save()"
-          class="mt-1 w-full rounded border border-stone-300 px-2 py-1" />
-      </label>
-
-      <label class="mt-3 block text-sm text-stone-700"> Description
-        <textarea rows="3" [ngModel]="description()" (ngModelChange)="description.set($event)"
-          class="mt-1 w-full rounded border border-stone-300 px-2 py-1"></textarea>
-      </label>
-
-      <div class="mt-5 flex justify-end gap-2">
-        <button type="button" (click)="formOpen.set(false)" class="px-3 py-1">
-          Cancel
-        </button>
-
-        <button type="button" (click)="save()" [disabled]="!title().trim()"
-          class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">
-          Save
-        </button>
-      </div>
-      </div>
-  </div>
-}
-
-<!-- dialog to confirm deletion -->
-@if (deleting(); as n) {
-  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
-    <div class="w-[340px] rounded-xl bg-[#FAEEDD] p-6 shadow-xl">
-     
-      <div class="flex flex-row gap-2">
-        <h2 class="text-lg font-semibold text-stone-800">
-          Delete <span class="text-gray-500 font-bold">{{ n.title }}</span>?
-        </h2>
-      </div>
-
-
-      <p class="mt-2 text-sm text-stone-600">
-        This action cannot be undone.
-      </p>
-
-      <div class="mt-5 flex justify-end gap-2">
-        <button type="button" (click)="deleting.set(null)" class="px-3 py-1">
-          Cancel
-        </button>
-
-        <button type="button" (click)="confirmDelete()"
-          class="rounded bg-red-800 px-3 py-1 text-white">
-            Delete
+        <!-- Criar novo Bokki -->
+        <div class="flex h-53.75 w-20 shrink-0 items-end">
+          <button type="button" (click)="openCreate()" aria-label="New Bokki"
+                  class="mb-3 flex h-47.5 w-full items-center justify-center
+                         rounded-[7px] border-2 border-dashed border-[#C99D5B]
+                         bg-[#FAEEDD] hover:bg-[#E7B770]">
+            <span class="text-5xl text-[#17124d]">+</span>
           </button>
+        </div>
+
+        @for (n of store.notebooks(); track n.id) {
+          <app-notebook class="shrink-0" [notebook]="n"
+                        (edit)="openEdit($event)"
+                        (remove)="deleting.set($event)" />
+        }
       </div>
     </div>
   </div>
+</section>
+
+@if (formOpen()) {
+  <app-notebook-form
+    [notebook]="editing()"
+    (save)="save($event)"
+    (cancel)="formOpen.set(false)" />
+}
+
+@if (deleting(); as n) {
+  <app-confirm-dialog
+    title="Delete this Bokki?"
+    message="This action cannot be undone."
+    confirmLabel="Delete"
+    [danger]="true"
+    (confirm)="confirmDelete()"
+    (cancel)="deleting.set(null)">
+
+    <p class="mt-2 text-sm font-bold text-gray-500">{{ n.title }}</p>
+  </app-confirm-dialog>
 }
