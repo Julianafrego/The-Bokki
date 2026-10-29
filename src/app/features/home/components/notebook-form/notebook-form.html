@@ -1,0 +1,33 @@
+<div class="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+     (click)="cancel.emit()">
+
+  <div role="dialog" aria-modal="true"
+       class="w-90 rounded-xl bg-[#FAEEDD] p-6 shadow-xl"
+       (click)="$event.stopPropagation()">
+
+    <h2 class="mb-4 text-lg font-semibold text-stone-800">
+      {{ notebook() ? 'Edit Bokki' : 'New Bokki' }}
+    </h2>
+
+    <label class="block text-sm text-stone-700">Title
+      <input type="text" [ngModel]="title()" (ngModelChange)="title.set($event)"
+             (keydown.enter)="submit()"
+             class="mt-1 w-full rounded border border-stone-300 px-2 py-1" />
+    </label>
+
+    <label class="mt-3 block text-sm text-stone-700">Description
+      <textarea rows="3" [ngModel]="description()" (ngModelChange)="description.set($event)"
+                class="mt-1 w-full rounded border border-stone-300 px-2 py-1"></textarea>
+    </label>
+
+    <label class="mt-3 flex items-center gap-2 text-sm text-stone-700">Color
+      <input type="color" [ngModel]="color()" (ngModelChange)="color.set($event)" />
+    </label>
+
+    <div class="mt-5 flex justify-end gap-2">
+      <button type="button" (click)="cancel.emit()" class="px-3 py-1">Cancel</button>
+      <button type="button" (click)="submit()" [disabled]="!title().trim()"
+              class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">Save</button>
+    </div>
+  </div>
+</div>
