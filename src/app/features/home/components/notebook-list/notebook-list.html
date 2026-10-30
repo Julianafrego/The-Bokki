@@ -12,6 +12,7 @@
               <app-notebook
                 [notebook]="n"
                 (edit)="openEdit($event)" 
+                (remove)="deleting.set($event)"
                 [previewOnly]="false"
               />
             } @else {
@@ -55,7 +56,8 @@
 @if (deleting(); as n) {
   <app-confirm-dialog
     title="Delete this Bokki?"
-    message="This action cannot be undone."
+    message= "All data in this notebook will be removed and this action cannot be undone."
+
     confirmLabel="Delete"
     [danger]="true"
     (confirm)="confirmDelete()"
@@ -63,7 +65,6 @@
 
     <div class="mt-2 text-sm">
       <p class="font-bold text-red-800">"{{ n.title }}"</p>
-      <p>All data in this notebook will be removed.</p>
     </div>
   </app-confirm-dialog>
 }
