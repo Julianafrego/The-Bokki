@@ -13,4 +13,11 @@
   --color-oak-500: #be945f;
   --color-oak-grain: #a7794a;
   --color-oak-vein: rgb(167 121 74 / 0.15);
+
+  --color-brown-500: #8c5f3e;
+  --color-brown-700: #7a532d;
+  --color-brown-800: #4a2a12;
+
+  --color-white-translucent: rgba(246 232 206 / 0.3);
+  --color-white-translucent-hover: rgba(246 232 206 / 0.5)
 }
