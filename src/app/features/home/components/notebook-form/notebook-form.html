@@ -20,6 +20,16 @@
                 class="mt-1 w-full rounded border border-stone-300 px-2 py-1"></textarea>
     </label>
 
+    <app-shelf [compact]="true">
+      <app-notebook 
+        [notebook]="previewNotebook()"
+        [previewOnly]="true"
+        [compact]="true"
+      >    
+      </app-notebook>
+    </app-shelf>
+
+
     <label class="mt-3 flex items-center gap-2 text-sm text-stone-700">Color
       <input type="color" [ngModel]="color()" (ngModelChange)="color.set($event)" />
     </label>

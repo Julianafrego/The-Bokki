@@ -1,10 +1,13 @@
 <div class="relative isolate w-full">
 
   <app-compartment 
-    class="z-10 block" 
+    class="z-10 block h-75" 
+    [class.h-[140px]]="compact()"
   />
 
-  <div class="absolute inset-x-0 bottom-6 z-10 flex items-end gap-x-3">
+  <div class="absolute inset-x-0 bottom-6 z-10 flex items-end gap-x-3"
+    [class.justify-center]="compact()"
+  >
     <ng-content/>
   </div>
 

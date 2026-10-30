@@ -11,7 +11,9 @@
             @if (item.notebook; as n) {
               <app-notebook
                 [notebook]="n"
-                (edit)="openEdit($event)" />
+                (edit)="openEdit($event)" 
+                [previewOnly]="false"
+              />
             } @else {
               <button type="button" (click)="openCreate()" aria-label="New Bokki"
               class="flex h-46.5 w-full items-center justify-center

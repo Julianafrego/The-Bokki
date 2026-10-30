@@ -12,4 +12,7 @@ export class Notebook {
   notebook = input.required<NotebookModel>();
   edit = output<NotebookModel>();
   remove = output<NotebookModel>();
+
+  previewOnly = input(false);
+  compact = input(false);
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Board } from '../board/board';
 import { Compartment } from '../compartment/compartment';
 import { ɵEmptyOutletComponent } from '@angular/router';
@@ -8,4 +8,6 @@ import { ɵEmptyOutletComponent } from '@angular/router';
   selector: 'app-shelf',
   templateUrl: './shelf.html',
 })
-export class Shelf {}
+export class Shelf {
+  compact = input(false);
+}
