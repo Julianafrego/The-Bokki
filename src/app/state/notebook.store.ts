@@ -1,10 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { NotebookRepository } from '../data/notebook.repository';
 import { NewNotebook, Notebook } from '../data/models';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Injectable({ providedIn: 'root' })
 export class NotebookStore {
     private repo = inject(NotebookRepository);
+    private toast = inject(HotToastService);
 
     private _notebooks = signal<Notebook[]>([]);
     private _loading =signal(false);
@@ -17,14 +19,15 @@ export class NotebookStore {
 
 
 
-    private async run(acao: () => Promise<void>) {
+    private async run(acao: () => Promise<void>, erroMsg: string): Promise<boolean> {
         this._loading.set(true);
-        this._error.set(null);
         try {
             await acao();
+            return true;
         } catch (error) {
             console.error(error);
-            this._error.set(error instanceof Error ? error.message : 'Unknown error');
+            this.toast.error(erroMsg);
+            return false;
         } finally {
             this._loading.set(false);
         }
@@ -35,31 +38,40 @@ export class NotebookStore {
     async loadNotebooks() {
         await this.run(async () => {
             this._notebooks.set(await this.repo.getAllNotebooks());
-        });
+        }, 'could not load the Books.');
     }
 
     // method to create a notebook, when signal is updated, the component will be notified
     async createNotebook(data: NewNotebook) {
-        await this.run(async () => {
+        const ok = await this.run(async () => {
            const criado = await this.repo.createNotebook(data);
             this._notebooks.update((notebooks) => [criado, ...notebooks]);
-        });
+        }, 'Could not create the Bokki.');
+
+        if (ok) this.toast.success('The Bokki was created!');
+        return ok;
     }
 
     // method to update a notebook, when signal is updated, the component will be notified
     async updateNotebook(notebook: Notebook) {
-        await this.run(async () => {
+        const ok = await this.run(async () => {
             const atualizado = await this.repo.updateNotebook(notebook);
             this._notebooks.update(list => [atualizado, ...list.filter(n => n.id !== atualizado.id)]);
-        });
+        }, 'could not save the changes.');
+
+        if (ok) this.toast.success('Changes saved!');
+        return ok;
     }
     
     // method to delete a notebook, when signal is updated, the component will be notified
     async deleteNotebook(id: number) {
-        await this.run(async () => {
+        const ok = await this.run(async () => {
             await this.repo.deleteNotebook(id);
             this._notebooks.update(list => list.filter(n => n.id !== id));
-        });
+        }, 'Could not delete your bokki.');
+
+        if (ok) this.toast.success('Bokki deleted.');
+        return ok;
     }
     
 }
