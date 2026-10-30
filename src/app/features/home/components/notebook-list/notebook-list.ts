@@ -9,7 +9,7 @@ import { Shelf } from '../../../../shared/ui/bookshelf/components/shelf/shelf';
 import { Bookshelf } from '../../../../shared/ui/bookshelf/bookshelf';
 
 const BookWidth = 80; 
-const gap = 12;
+const gap = 25;
 const shelves_per_bookcase = 3; 
 
 interface ShelfItem {
