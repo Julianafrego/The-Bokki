@@ -1,13 +1,6 @@
-<section class="relative isolate min-h-[100vh]">
-    <app-wood-background class="absolute inset-0 z-0 point-events-none block" />
-
-    <div class="relative z-10 px-5 pt-6">
-        <app-shelf class="block w-full" />
-    </div>
-        <div class="relative z-10 px-5">
-        <app-shelf class="block w-full" />
-    </div>
-    <div class="relative z-10 px-5">
-        <app-shelf class="block w-full" />
-    </div>
+<section class="relative isolate min-h-screen">
+  <app-wood-background class="pointer-events-none absolute inset-0 z-0 block" />
+  <div class="relative z-10 px-5 pt-6">
+    <ng-content />
+  </div>
 </section>

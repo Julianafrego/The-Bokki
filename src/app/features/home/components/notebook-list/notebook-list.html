@@ -1,31 +1,47 @@
-<section class="m-10">
+<app-bookshelf>
   @if (store.error()) {
-    <p class="mt-4 text-red-700">{{ store.error() }}</p>
+    <p class="mt-2 text-red-700">{{ store.error() }}</p>
   }
 
-  <div id="bokkis" class="mt-8 flex flex-col gap-y-2">
-    <div class="relative">
-      <div class="flex h-53.75 items-end gap-x-3">
-
-        <!-- Criar novo Bokki -->
-        <div class="flex h-53.75 w-20 shrink-0 items-end">
-          <button type="button" (click)="openCreate()" aria-label="New Bokki"
-                  class="mb-3 flex h-47.5 w-full items-center justify-center
-                         rounded-[7px] border-2 border-dashed border-[#C99D5B]
-                         bg-[#FAEEDD] hover:bg-[#E7B770]">
-            <span class="text-5xl text-[#17124d]">+</span>
-          </button>
-        </div>
-
-        @for (n of store.notebooks(); track n.id) {
-          <app-notebook class="shrink-0" [notebook]="n"
-                        (edit)="openEdit($event)"
-                        (remove)="deleting.set($event)" />
+  <div #area class="px-10">
+    @for (row of shelves(); track $index) {
+      <app-shelf class="block ">
+        @for (item of row; track item.key) {
+          <div class="w-20 shrink-0 ml-2">
+            @if (item.notebook; as n) {
+              <app-notebook
+                [notebook]="n"
+                (edit)="openEdit($event)" />
+            } @else {
+              <button type="button" (click)="openCreate()" aria-label="New Bokki"
+              class="flex h-46.5 w-full items-center justify-center
+                         rounded-[7px] border-[1.2px] border-dashed border-brown-700
+                          bg-white-translucent hover:bg-white-translucent-hover">
+                    <span class="text-5xl text-[#17124d]">+</span>
+              </button>
+            }
+          </div>
         }
-      </div>
-    </div>
+      </app-shelf>
+    }
   </div>
-</section>
+
+  @if (totalPages() > 1) {
+    <button type="button" (click)="prev()" [disabled]="currentPage() === 0"
+            aria-label="Previous bookcase"
+            class="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full
+             bg-white/70 px-3 py-2 shadow disabled:opacity-30"> ‹ </button>
+    
+    <button type="button" (click)="next()" [disabled]="currentPage() === totalPages() - 1"
+            aria-label="Next bookcase"
+            class="absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-white/70 px-3 py-2
+                   shadow disabled:opacity-30">›</button>
+    
+    <p class="relative z-30 mt-2 text-center text-sm text-stone-600">
+      {{ currentPage() + 1 }} / {{ totalPages() }}
+    </p>
+  }  
+</app-bookshelf>
 
 @if (formOpen()) {
   <app-notebook-form
