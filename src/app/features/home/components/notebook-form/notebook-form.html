@@ -1,4 +1,4 @@
-<div class="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
      (click)="cancel.emit()">
 
   <div role="dialog" aria-modal="true"
@@ -11,7 +11,7 @@
 
     <div class="relative">
       <input 
-        id="title" type="text"
+        id="title" type="text" maxlength="35"
         [ngModel]="title()" (ngModelChange)="title.set($event)"
         (keydown.enter)="submit()" placeholder=""
         class="peer w-full rounded-lg border border-oak-100 bg-transparent
@@ -37,6 +37,7 @@
         id="description"
         rows="3"
         [ngModel]="description()"
+        maxlength="90"
         (ngModelChange)="description.set($event)"
         placeholder=" "
         class="peer w-full resize-none rounded-lg border
