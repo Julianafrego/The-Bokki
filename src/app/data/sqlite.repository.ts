@@ -14,7 +14,7 @@ const migrations: string[] = [
   )`,
 ];
 
-//notebookrow represents the structure of a notebook row in the database, with createdAt and updatedAt as numbers (timestamps)
+//the structure of a notebook row in the database
 interface NotebookRow {
     id: number;
     title: string;
@@ -22,10 +22,9 @@ interface NotebookRow {
     color: string;
     created_at: number;
     updated_at: number;
-    //createdat and updatedat are numbers because sqlite doesn't support date types, BD save as integer (timestamp), and we convert to Date when returning to the user
 }
 
-// toNotebook converts a notebook row to a notebook object, converting createdAt and updatedAt from numbers (timestamps) to Date objects
+// converts a notebook row to a notebook object
 const toNotebook = (r: NotebookRow): Notebook => ({
     id: r.id,
     title: r.title,
@@ -36,15 +35,12 @@ const toNotebook = (r: NotebookRow): Notebook => ({
 });
 
 export class SqliteRepository implements NotebookRepository {
-    //open a promise to the database, in the start the function init() is called to initialize the database and apply migrations if necessary
-    //promise cause we have a object that is not ready yet, and we need to wait for it to be ready before using it
     private dbPromise: Promise<Database> =  this.init();
 
     private async init(): Promise<Database> {
-        // open the database, if it doesn't exist, it will be created
+
         const db = await Database.load('sqlite:notebooks.db');
 
-        // verify database version
         const [{user_version}] = await db.select<{user_version: number}[]>(
             'PRAGMA user_version');
 

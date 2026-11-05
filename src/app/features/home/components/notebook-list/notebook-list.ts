@@ -35,7 +35,7 @@ export class NotebookList implements OnInit {
   store = inject(NotebookStore);
   private destroyRef = inject(DestroyRef);
 
-  // for create and edit
+  // for create and edit notebook
   formOpen = signal(false);
   editing = signal<NotebookModel | null>(null);
   title = signal('');
