@@ -5,10 +5,11 @@ import { Shelf } from '../../../../shared/ui/bookshelf/components/shelf/shelf';
 import { Notebook } from '../notebook/notebook';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { inject } from '@angular/core';
+import { Button } from '../../../../shared/ui/button/button';
 
 @Component({
   selector: 'app-notebook-form',
-  imports: [FormsModule, Shelf, Notebook],
+  imports: [FormsModule, Shelf, Notebook, Button],
   templateUrl: './notebook-form.html',
 })
 export class NotebookForm implements OnInit {
@@ -16,7 +17,7 @@ export class NotebookForm implements OnInit {
 
   save = output<NewNotebook>();
   cancel = output<void>();
-
+  delete = output<void>();
   title = signal('');
   description = signal('');
   color = signal('#c38a52');

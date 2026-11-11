@@ -81,10 +81,37 @@
       </app-notebook>
     </app-shelf>
 
-    <div class="mt-5 flex justify-end gap-2">
-      <button type="button" (click)="cancel.emit()" class="px-3 py-1">Cancel</button>
-      <button type="button" (click)="submit()" [disabled]="!title().trim()"
-              class="rounded bg-[#E7B770] px-3 py-1 disabled:opacity-50">Save</button>
+    <div class="mt-5 flex items-center justify-between">
+      <app-button
+        label="Delete"
+        [variant]="'danger'"
+        (clicked)="delete.emit()"
+        [disabled]="!notebook()"
+        size="md"
+      >
+        <img
+          button-icon
+          src="/assets/delete-red-icon.svg"
+          alt=""
+        />
+      </app-button>
+
+      <div class="flex gap-2">
+        <app-button
+          label="Cancel"
+          [variant]="'secondary'"
+          (clicked)="cancel.emit()"
+          size="md"
+        ></app-button>
+
+        <app-button
+          label="Save"
+          [variant]="'primary'"
+          (clicked)="submit()"
+          [disabled]="!title().trim()"
+          size="md"
+        ></app-button>
+      </div>
     </div>
   </div>
 </div>
