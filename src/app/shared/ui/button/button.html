@@ -1,0 +1,65 @@
+
+<button
+    type="button"
+    [disabled]="disabled()"
+    [class.w-full]="fullWidth()"
+    [class.h-full]="Fullheight()"
+
+    (click)="clicked.emit()"
+
+    class="flex items-center justify-center gap-2
+           rounded-sm font-medium transition-colors
+           disabled:cursor-not-allowed disabled:opacity-50"
+
+    [class.flex-col]="iconPosition() === 'top'"
+    [class.flex-row]="iconPosition() !== 'top'"
+
+    [class.gap-1]="iconPosition() === 'top'"
+
+    [class.px-3]="size() === 'sm'"
+    [class.py-1]="size() === 'sm'"
+    [class.text-sm]="size() === 'sm'"
+
+    [class.px-4]="size() === 'md'"
+    [class.py-2]="size() === 'md'"
+    [class.text-base]="size() === 'md'"
+
+    [class.gap-1]="size() === 'sm' || iconPosition() === 'top'"
+    [class.gap-2]="size() === 'md' && iconPosition() !== 'top'"
+
+    [class.bg-[#E7B770]]="variant() === 'primary'"
+    [class.text-gray-900]="variant() === 'primary'"
+
+    [class.bg-red-200]="variant() === 'danger'"
+    [class.text-red-900]="variant() === 'danger'"
+
+    [class.bg-[#F9EBD7]]="variant() === 'secondary'"
+    [class.text-[#59432D]]="variant() === 'secondary'"
+    [class.border]="variant() === 'secondary'"
+    [class.border-[#EED5AC]]="variant() === 'secondary'"
+    [class.hover:bg-[#F3DDBB]]="variant() === 'secondary'"
+    [class.hover:border-[#E7B770]]="variant() === 'secondary'"
+>
+
+<span
+    class="flex items-center justify-center
+           [&_img]:shrink-0 [&_svg]:shrink-0"
+
+    [class.[&_img]:h-3]="size() === 'sm'"
+    [class.[&_img]:w-3]="size() === 'sm'"
+    [class.[&_svg]:h-3]="size() === 'sm'"
+    [class.[&_svg]:w-3]="size() === 'sm'"
+
+    [class.[&_img]:h-5]="size() === 'md'"
+    [class.[&_img]:w-5]="size() === 'md'"
+    [class.[&_svg]:h-5]="size() === 'md'"
+    [class.[&_svg]:w-5]="size() === 'md'"
+>
+    <ng-content select="[button-icon]" />
+</span>
+
+    <span class="leading-none">
+        {{ label() }}
+    </span>
+
+</button>

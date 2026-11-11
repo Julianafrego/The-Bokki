@@ -1,7 +1,9 @@
 import { Component, input, output, EventEmitter } from '@angular/core';
 import { Notebook as NotebookModel } from '../../../../data/models';
+import { Button } from '../../../../shared/ui/button/button';
+
 @Component({
-  imports: [],
+  imports: [Button],
   selector: 'app-notebook',
   templateUrl: './notebook.html',
 })

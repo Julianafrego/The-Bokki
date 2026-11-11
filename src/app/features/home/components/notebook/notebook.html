@@ -54,14 +54,40 @@
                 </p>
 
                 <div class="mt-2 flex gap-2">
-                    <button type="button" (click)="edit.emit(notebook())"
-                        class="rounded bg-[#E7B770] px-2 py-1 text-sm"> Edit
-                    </button>
+                    <app-button
+                        label="Open notes"
+                        [variant]="'primary'"
+                        (clicked)="edit.emit(notebook())"
+                        [fullWidth]="true"
+                        [Fullheight]="true"
+                        size="md"
+                        
+                    >
+                        <img
+                            button-icon
+                            src="/assets/open-book-icon.svg"
+                            alt=""
+                        />
+                    </app-button>
 
-                    <button type="button" (click)="remove.emit(notebook())"
-                        class="rounded bg-red-200 px-2 py-1 text-sm text-red-900"> Delete
-                    </button>
+                    <app-button
+                        label="Edit"
+                        [variant]="'secondary'"
+                        (clicked)="edit.emit(notebook())"
+                        size="sm"
+                        [fullWidth]="true"
+                        [Fullheight]="true"
+                        iconPosition="top"
+                    >
+                        <img
+                            button-icon
+                            src="/assets/edit-icon.svg"
+                            alt=""
+                            class="h-2 w-2"
+                        />
+                    </app-button>
                 </div>
+
             </div>
         </div>
     }
