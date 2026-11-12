@@ -1,8 +1,9 @@
-<div class="flex h-screen overflow-hidden ">
-  <!-- Left sidebar -->
-
+<div class="relative isolate h-screen overflow-x-hidden overfow-scroll
+        bg-[linear-gradient(to_bottom,var(--color-wall-top)_0%,var(--color-wall-bottom)_100%)] ">
   <!-- Main content -->
-  <main class="flex-3">
-    <app-notebook-list/>
+  <main class="flex-3 m-9">
+    <app-bookshelf class="absolute inset-0 z-0 block m-10"/>
+    
+    <app-notebook-list class="relative z-10 "/>
   </main>
 </div>
