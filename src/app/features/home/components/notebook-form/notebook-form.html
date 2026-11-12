@@ -22,7 +22,7 @@
       <label for="title"
         class="pointer-events-none absolute left-3 top-2
           origin-left -translate-y-1/2  bg-wall-top
-           px-1 text-sm text-oak-300 transition-all
+           px-1 text-sm text-oak-grain transition-all
            peer-placeholder-shown:top-1/2
            peer-placeholder-shown:text-sm
            peer-focus:top-0 peer-focus:text-xs
@@ -54,7 +54,7 @@
         for="description"
         class="pointer-events-none absolute left-3 top-2
               -translate-y-1/2
-              bg-wall-top px-1 text-sm text-oak-300
+              bg-wall-top px-1 text-sm text-oak-grain
               transition-all
               peer-placeholder-shown:top-4
               peer-focus:top-0 peer-focus:text-xs
@@ -68,8 +68,12 @@
       </p>
     </div>
 
-    <label class="mt-3 flex items-center gap-2 text-sm text-stone-700">Color
+    <label class="mt-3 flex items-center gap-2 text-sm text-oak-grain">Color
       <input type="color" [ngModel]="color()" (ngModelChange)="color.set($event)" />
+    </label>
+
+    <label class="mt-3 flex items-center gap-2 text-sm text-oak-grain">
+      Preview
     </label>
 
     <app-shelf [compact]="true">
@@ -91,7 +95,7 @@
       >
         <img
           button-icon
-          src="/assets/delete-red-icon.svg"
+          src="/assets/red-delete-icon.svg"
           alt=""
         />
       </app-button>
