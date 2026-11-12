@@ -5,7 +5,7 @@ import { Shelf } from './components/shelf/shelf';
 import { WoodBackground } from './components/wood-background/wood-background';
 
 @Component({
-  imports: [Compartment, Board, Shelf, WoodBackground],
+  imports: [WoodBackground],
   selector: 'app-bookshelf',
   templateUrl: './bookshelf.html',
 })
