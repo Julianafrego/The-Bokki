@@ -11,8 +11,6 @@ import {
   shelves_per_bookcase, bookWidth, elementWidth, itemsPerShelf, paginate,
 } from '../../../../shared/utils/bookshelf-layout';
 
-
-
 interface ShelfItem {
   key: String;
   notebook: NotebookModel | null;
