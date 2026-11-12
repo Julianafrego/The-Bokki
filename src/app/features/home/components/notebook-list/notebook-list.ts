@@ -89,11 +89,23 @@ export class NotebookList implements OnInit {
     if (ok) this.formOpen.set(false);
   }
 
+  requestDelete() {
+    const notebook = this.editing();
+    if (!notebook) return;
+
+    this.deleting.set(notebook);
+  }
+
   async confirmDelete() {
     const n = this.deleting();
     if (!n) return;
 
     const ok = await this.store.deleteNotebook(n.id);
-    if (ok) this.deleting.set(null);
+    
+    if (ok) {
+      this.deleting.set(null);
+      this.formOpen.set(false);
+      this.editing.set(null);
+    }
   }
 }

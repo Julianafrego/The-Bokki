@@ -50,7 +50,9 @@
   <app-notebook-form
     [notebook]="editing()"
     (save)="save($event)"
-    (cancel)="formOpen.set(false)" />
+    (cancel)="formOpen.set(false)"
+    (delete)="requestDelete()"
+ />
 }
 
 @if (deleting(); as n) {
