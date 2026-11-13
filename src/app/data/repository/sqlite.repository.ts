@@ -1,6 +1,6 @@
 // para o tauri
 import Database from '@tauri-apps/plugin-sql';
-import { Notebook, NewNotebook } from '../models/Notebook';
+import { Notebook, NewNotebook } from '../models/Notebook.model';
 import { NotebookRepository } from './notebook.repository';
 
 const migrations: string[] = [

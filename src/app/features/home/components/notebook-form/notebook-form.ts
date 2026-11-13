@@ -1,6 +1,6 @@
 import { Component, computed, input, output, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Notebook as NotebookModel, NewNotebook } from '../../../../data/models/Notebook';
+import { Notebook as NotebookModel, NewNotebook } from '../../../../data/models/Notebook.model';
 import { Shelf } from '../../../../shared/ui/bookshelf/components/shelf/shelf';
 import { Notebook } from '../notebook/notebook';
 import { HotToastService } from '@ngxpert/hot-toast';

@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal, computed, viewChild, ElementRef, afterNextRender, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Notebook } from '../notebook/notebook';
-import { NewNotebook, Notebook as NotebookModel } from '../../../../data/models/Notebook';
+import { NewNotebook, Notebook as NotebookModel } from '../../../../data/models/Notebook.model';
 import { NotebookStore } from '../../../../state/notebook.store';
 import { ConfirmDialog } from '../../../../shared/ui/confirm-dialog/confirm-dialog';
 import { NotebookForm } from '../notebook-form/notebook-form';
