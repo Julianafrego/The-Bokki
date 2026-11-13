@@ -1,5 +1,5 @@
 //contratos
-import { Notebook, NewNotebook } from './models';
+import { Notebook, NewNotebook } from '../models/Notebook';
 
 //interface
 export abstract class NotebookRepository {

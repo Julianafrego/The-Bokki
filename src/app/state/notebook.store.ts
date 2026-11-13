@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { NotebookRepository } from '../data/notebook.repository';
-import { NewNotebook, Notebook } from '../data/models';
+import { NotebookRepository } from '../data/repository/notebook.repository';
+import { NewNotebook, Notebook } from '../data/models/Notebook';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 @Injectable({ providedIn: 'root' })
