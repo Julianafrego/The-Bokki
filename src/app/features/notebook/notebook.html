@@ -1,0 +1,23 @@
+<main class="mx-auto  max-w-400 px-4 py-6 md:px-8">
+
+  <app-notebook-cover class="block w-full">
+
+    <div
+      class="mx-auto grid w-full 
+             grid-cols-1 min-[900px]:gap-0 gap-2
+             min-[900px]:grid-cols-2"
+    >
+      <app-notebook-page
+        title="My first page"
+        [pageNumber]="1"
+      />
+
+      <app-notebook-page
+        title="My second page"
+        [pageNumber]="2"
+      />
+    </div>
+
+  </app-notebook-cover>
+
+</main>
