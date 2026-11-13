@@ -1,7 +1,10 @@
-<main class="mx-auto  max-w-400 px-4 py-6 md:px-8">
+<main class="relative isolate min-h-screen  
+  overflow-hidden [px-4 py-3 md:px-8 ]
+   bg-[linear-gradient(180deg,var(--color-oak-100)_0%,var(--color-oak-200)_100%)]">
+
+
 
   <app-notebook-cover class="block w-full">
-
     <div
       class="mx-auto grid w-full 
              grid-cols-1 min-[900px]:gap-0 gap-2
@@ -16,6 +19,13 @@
         title="My second page"
         [pageNumber]="2"
       />
+      <div
+        class="pointer-events-none absolute
+              left-1/2 top-0 bottom-0 z-10
+              hidden min-[900px]:block
+              w-px -translate-x-1/2
+              bg-[#CFB994]"
+      ></div>
     </div>
 
   </app-notebook-cover>
