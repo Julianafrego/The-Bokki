@@ -14,10 +14,23 @@
   --color-oak-grain: #a7794a;
   --color-oak-vein: rgb(167 121 74 / 0.15);
 
+  --color-caramel-100: #d49a5c;
+  --color-caramel-200: #c99258;
+  --color-caramel-300: #c38a52;
+  --color-caramel-400: #b97e43;
+  --color-caramel-500: #b07843;
+
   --color-brown-500: #8c5f3e;
   --color-brown-700: #7a532d;
   --color-brown-800: #4a2a12;
 
+  /* red colors */
+  --color-danger: #a84a31;
+  --color-danger-border: #d9a08c;
+  --color-danger-bg: #f6e0d6;
+  --color-danger-text: #8a3420;
+
+  --color-bege: #fbf1de;
   --color-white-translucent: rgba(246 232 206 / 0.3);
   --color-white-translucent-hover: rgba(246 232 206 / 0.5)
 }
