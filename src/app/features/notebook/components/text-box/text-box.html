@@ -1,0 +1,14 @@
+<div
+  class="h-full w-full min-w-0"
+  [class.text-box-selected]="selected()"
+>
+  <tiptap-editor
+    class="block w-full
+           [&_.tiptap]:w-full
+           [&_.tiptap]:h-auto
+           [&_.tiptap]:min-h-0
+           [&_.tiptap]:outline-none
+           [&_.tiptap]:wrap-break-word"
+    [editor]="editor"
+  />
+</div>

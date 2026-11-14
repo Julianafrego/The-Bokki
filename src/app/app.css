@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.text-box-selected {
+  outline: 1px solid #C19A6B;
+}
