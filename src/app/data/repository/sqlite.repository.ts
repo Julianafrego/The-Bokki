@@ -11,6 +11,37 @@ const migrations: string[] = [
     created_at INTEGER NOT NULL,
     updated_at INTEGER NOT NULL
   )`,
+  `CREATE TABLE IF NOT EXISTS notebook_pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    notebook_id INTEGER NOT NULL,
+    position INTEGER NOT NULL,
+    title TEXT NOT NULL,
+
+    UNIQUE (notebook_id, position),
+
+    FOREIGN KEY (notebook_id)
+      REFERENCES notebooks(id)
+      ON DELETE CASCADE
+  )`,
+  `CREATE TABLE IF NOT EXISTS text_boxes (
+    id TEXT PRIMARY KEY,
+    page_id INTEGER NOT NULL,
+
+    x REAL NOT NULL,
+    y REAL NOT NULL,
+    width REAL NOT NULL,
+    height REAL NOT NULL,
+
+    content TEXT NOT NULL,
+
+    FOREIGN KEY (page_id)
+        REFERENCES notebook_pages(id)
+        ON DELETE CASCADE
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_text_boxes_page_id
+    ON text_boxes(page_id)`
+
+
 ];
 
 //the structure of a notebook row in the database
