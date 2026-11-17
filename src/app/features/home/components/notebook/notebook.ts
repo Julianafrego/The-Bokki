@@ -12,6 +12,8 @@ export class Notebook {
   imglombada = "/assets/spine-book/rose-spine.png";
 
   notebook = input.required<NotebookModel>();
+
+  open = output<NotebookModel>();
   edit = output<NotebookModel>();
   remove = output<NotebookModel>();
 

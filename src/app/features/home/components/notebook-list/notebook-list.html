@@ -11,6 +11,7 @@
             @if (item.notebook; as n) {
               <app-notebook
                 [notebook]="n"
+                (open)="openNotebook($event)"
                 (edit)="openEdit($event)" 
                 (remove)="deleting.set($event)"
                 [previewOnly]="false"

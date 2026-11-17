@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal, computed, viewChild, ElementRef, afterNextRender, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Notebook } from '../notebook/notebook';
 import { NewNotebook, Notebook as NotebookModel } from '../../../../data/models/Notebook.model';
 import { NotebookStore } from '../../../../state/notebook.store';
@@ -12,7 +13,7 @@ import {
 } from '../../../../shared/utils/bookshelf-layout';
 
 interface ShelfItem {
-  key: String;
+  key: string;
   notebook: NotebookModel | null;
 }
 
@@ -24,6 +25,7 @@ interface ShelfItem {
 export class NotebookList implements OnInit {
   store = inject(NotebookStore);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   // for dialogs
   formOpen = signal(false);
@@ -68,6 +70,10 @@ export class NotebookList implements OnInit {
   next() { this.page.set(Math.min(this.totalPages() - 1, this.currentPage() + 1)); }
 
   // ---- actions ----
+  openNotebook(notebook: NotebookModel): void {
+    void this.router.navigate(['/notebook', notebook.id]);
+  }
+  
   openCreate() {
     this.editing.set(null);
     this.formOpen.set(true);
