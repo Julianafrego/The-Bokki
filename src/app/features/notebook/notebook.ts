@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { NotebookPage } from './components/notebook-page/notebook-page';
 import { NotebookCover } from './components/notebook-cover/notebook-cover';
 import { SearchBar } from '../../shared/ui/search-bar/search-bar';
@@ -6,9 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotebookContentRepository } from '../../data/repository/notebook-content.repository';
 import type { NotebookPageModel } from '../../data/models/notebook-page.model';
 import type { TextBoxModel } from '../../data/models/text-box.model';
+import { AngularMarkViewComponent } from 'ngx-tiptap';
+import { RoundIconButton } from '../../shared/ui/round-icon-button/round-icon-button';
 
 @Component({
-  imports: [NotebookPage, NotebookCover, SearchBar],
+  imports: [NotebookPage, NotebookCover, SearchBar, RoundIconButton, AngularMarkViewComponent],
   selector: 'app-notebook',
   templateUrl: './notebook.html',
 })
@@ -19,6 +22,8 @@ export class Notebook {
   readonly notebookId = signal<number | null>(null);
   
   private contentRepository = inject(NotebookContentRepository);
+
+  private location = inject(Location);
 
   readonly pages = signal<NotebookPageModel[]>([]);
   readonly textBoxes = signal<TextBoxModel[]>([]);
@@ -57,5 +62,9 @@ export class Notebook {
 
   getTextBoxesForPage(pageId: number): TextBoxModel[] {
     return this.textBoxes().filter(box => box.pageId == pageId);
+  }
+
+  backPage(): void {
+    this.location.back();
   }
 }
