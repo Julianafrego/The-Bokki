@@ -1,0 +1,8 @@
+<button
+      type="button"
+      (click)="clicked.emit()"
+      [attr.aria-label]="ariaLabel()"
+      class="absolute left-5 top-4 box-border flex h-[40px] w-[40px] items-center justify-center rounded-[20px] border-[0.8px] border-[#F3DDB8]/[0.45] bg-gradient-to-b from-[#D49A5C] to-[#B97E43] shadow-[0px_2px_6px_rgba(62,34,14,0.28)] transition-transform active:scale-95 cursor-pointer z-10"
+    >
+      <img [src]="iconSrc()" [alt]="ariaLabel()" class="w-5 h-5 object-contain" />
+</button>
