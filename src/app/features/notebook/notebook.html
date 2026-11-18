@@ -1,5 +1,5 @@
-<main class="relative isolate min-h-screen  
-  overflow-hidden [px-4 py-3 md:px-8 ]
+<main class="relative isolate min-h-screen w-full
+  overflow-hidden [px-4 py-3 md:px-8 
    bg-[linear-gradient(180deg,var(--color-oak-100)_0%,var(--color-oak-200)_100%)]">
 
    <div class="flex w-full justify-center pb-2">
@@ -8,26 +8,27 @@
 
   <app-notebook-cover class="block w-full">
     <div
-      class="relative mx-auto grid w-full 
-             grid-cols-1 min-[1000px]:gap-0 gap-2
-             min-[1000px]:grid-cols-2"
+    class="relative mx-auto grid w-full min-w-0
+          grid-cols-1 gap-2
+          min-[1000px]:grid-cols-2
+          min-[1000px]:gap-0"
     >
-      <app-notebook-page
-        title="My first page"
-        [pageNumber]="1"
-      />
 
+    @for (page of pages(); track page.id) {
       <app-notebook-page
-        title="My second page"
-        [pageNumber]="2"
+        [pageId]="page.id"
+        [title]="page.title"
+        [pageNumber]="page.position"
+        [initialTextBoxes]="getTextBoxesForPage(page.id)"
       />
-      <div
-        class="pointer-events-none absolute
+    }
+    <div
+      class="pointer-events-none absolute
               left-1/2 top-0 bottom-0 z-10
               hidden min-[1000px]:block
               w-px -translate-x-1/2
               bg-[#CFB994]"
-      ></div>
+    ></div>
     </div>
 
   </app-notebook-cover>

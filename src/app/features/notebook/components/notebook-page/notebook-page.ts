@@ -1,6 +1,8 @@
 import {
   Component,
   ElementRef,
+  effect,
+  inject,
   input,
   signal,
   viewChild,
@@ -10,6 +12,7 @@ import type { JSONContent } from '@tiptap/core';
 
 import { TextBox } from '../text-box/text-box';
 import type { TextBoxModel } from '../../../../data/models/text-box.model';
+import { NotebookContentRepository } from '../../../../data/repository/notebook-content.repository';
 
 type ResizeDirection =
   | 'left'
@@ -46,12 +49,15 @@ interface PointerSession {
 export class NotebookPage {
 
   title = input<string>('');
+  pageId = input.required<number>();
   pageNumber = input<number>(1);
 
   readonly canvas =
     viewChild.required<ElementRef<HTMLDivElement>>('canvas');
 
   textBoxes = signal<TextBoxModel[]>([]);
+  initialTextBoxes = input<TextBoxModel[]>([]);
+  private initializedFromInput = false;
 
   activeTextBoxId = signal<string | null>(null);
 
@@ -59,40 +65,60 @@ export class NotebookPage {
   contentHeights = signal<Record<string, number>>({});
 
   private pointerSession: PointerSession | null = null;
-
+  private contentRepository = inject(NotebookContentRepository);
+  
   private readonly minWidth = 140;
   private readonly minHeight = 80;
 
+  // sicronize with local signal
+  constructor() {
+    effect(() => {
+      const initialBoxes = this.initialTextBoxes();
+
+      if (!this.initializedFromInput && initialBoxes.length > 0) {
+        this.textBoxes.set(initialBoxes);
+        this.initializedFromInput = true;
+      }
+    });
+  }
 
   // create new box
   createTextBoxAt(event: MouseEvent): void {
     const element = this.canvas().nativeElement;
     const rect = element.getBoundingClientRect();
 
+    console.log('Clique recebido no canvas:', {
+      clientX: event.clientX,
+      clientY: event.clientY,
+      scrollLeft: element.scrollLeft,
+      scrollTop: element.scrollTop,
+    });
+
     const id = crypto.randomUUID();
 
     const newBox: TextBoxModel = {
       id,
-
+      pageId: this.pageId(),
       x: event.clientX - rect.left + element.scrollLeft,
       y: event.clientY - rect.top + element.scrollTop,
-
       width: 300,
       height: this.minHeight,
-
       content: {
         type: 'doc',
-        content: [
-          { type: 'paragraph' }
-        ]
+        content: [{ type: 'paragraph' }]
       }
     };
 
-    this.textBoxes.update(boxes => [...boxes, newBox]);
+    console.log('Nova caixa criada:', newBox);
 
+    this.textBoxes.update(boxes => [...boxes, newBox]);
     this.activeTextBoxId.set(id);
+
+    void this.persistTextBox(newBox);
   }
 
+
+  // --------public functions---------
 
   selectTextBox(id: string, event: MouseEvent): void {
     event.stopPropagation();
@@ -102,13 +128,21 @@ export class NotebookPage {
 
 
   updateTextBoxContent(id: string, content: JSONContent): void {
-    this.textBoxes.update(boxes =>
-      boxes.map(box =>
-        box.id === id ? { ...box, content } : box
-      )
+    let updatedBox: TextBoxModel | undefined;
+    
+    this.textBoxes.update(boxes => 
+      boxes.map(box => {
+        if (box.id !== id ) return box;
+        
+        updatedBox = { ...box, content };
+        return updatedBox;
+      })
     );
-  }
 
+    if (updatedBox) {
+      void this.persistTextBox(updatedBox);
+    }
+  }
 
   // receive height from tiptap
   updateContentHeight(id: string, requiredHeight: number): void {
@@ -137,16 +171,6 @@ export class NotebookPage {
       box.height,
       this.contentHeights()[box.id] ?? this.minHeight
     );
-  }
-
-
-  // capture pointer to ensure we receive all events during drag
-  private capturePointer(event: PointerEvent): void {
-    const target = event.currentTarget;
-
-    if (target instanceof HTMLElement) {
-      target.setPointerCapture(event.pointerId);
-    }
   }
 
 
@@ -298,6 +322,7 @@ export class NotebookPage {
 
   // Remove emply box
   removeEmptyTextBox(id: string): void {
+    void this.contentRepository.deleteTextBox(id);
 
     this.textBoxes.update(boxes =>
       boxes.filter(box => box.id !== id)
@@ -344,6 +369,9 @@ export class NotebookPage {
 
     });
 
+  this.textBoxes.update(boxes =>
+    boxes.filter(box => box.id !== id)
+  );
   }
 
   // to finished operation
@@ -368,6 +396,33 @@ export class NotebookPage {
     }
 
     this.pointerSession = null;
+
+    const updatedBox = this.textBoxes().find(
+      box => box.id === this.activeTextBoxId()
+    );
+
+    if (updatedBox) {
+      void this.persistTextBox(updatedBox);
+    }
   }
 
+  //---------private functions------
+
+  private async persistTextBox(box: TextBoxModel): Promise<void> {
+    try {
+      await this.contentRepository.saveTextBox(box);
+    } catch (error) {
+      console.error('Could not save text box:', error);
+    }
+  }
+
+
+  // capture pointer to ensure we receive all events during drag
+  private capturePointer(event: PointerEvent): void {
+    const target = event.currentTarget;
+
+    if (target instanceof HTMLElement) {
+      target.setPointerCapture(event.pointerId);
+    }
+  }
 }

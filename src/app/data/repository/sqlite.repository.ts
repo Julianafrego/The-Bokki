@@ -1,6 +1,11 @@
 import Database from '@tauri-apps/plugin-sql';
+import type { JSONContent } from '@tiptap/core';
 import { Notebook, NewNotebook } from '../models/Notebook.model';
+import type { NotebookPageModel } from '../models/notebook-page.model';
+import type { TextBoxModel } from '../models/text-box.model';
+import type { NotebookContentModel } from '../models/notebook-content.model';
 import { NotebookRepository } from './notebook.repository';
+import { NotebookContentRepository } from './notebook-content.repository';
 
 const migrations: string[] = [
   `create table if not exists notebooks (
@@ -44,7 +49,7 @@ const migrations: string[] = [
 
 ];
 
-//the structure of a notebook row in the database
+//the structure in the database
 interface NotebookRow {
     id: number;
     title: string;
@@ -52,6 +57,23 @@ interface NotebookRow {
     color: string;
     created_at: number;
     updated_at: number;
+}
+
+interface NotebookPageRow {
+  id: number;
+  notebook_id: number;
+  position: number;
+  title: string;
+}
+
+interface TextBoxRow {
+  id: string;
+  page_id: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  content: string;
 }
 
 // converts a notebook row to a notebook object
@@ -64,7 +86,7 @@ const toNotebook = (r: NotebookRow): Notebook => ({
     updatedAt: new Date(r.updated_at),
 });
 
-export class SqliteRepository implements NotebookRepository {
+export class SqliteRepository implements NotebookRepository, NotebookContentRepository {
     private dbPromise: Promise<Database> =  this.init();
 
     private async init(): Promise<Database> {
@@ -81,6 +103,8 @@ export class SqliteRepository implements NotebookRepository {
         }
         return db;
     }
+
+    // functions for shelf
 
     async getAllNotebooks(): Promise<Notebook[]> {
         const db = await this.dbPromise;
@@ -131,5 +155,77 @@ export class SqliteRepository implements NotebookRepository {
     async deleteNotebook(id: number): Promise<void> {
         const db = await this.dbPromise;
         await db.execute('delete from notebooks where id = $1', [id]);
+    }
+
+
+    // functions for open notebook
+
+    async ensureInitialPages(notebookId: number): Promise<void> {
+        const db = await this.dbPromise;
+
+        const rows = await db.select<{ total: number}[]>(
+            'SELECT COUNT(*) as total FROM notebook_pages where notebook_id = $1', [notebookId]
+        );
+
+        if (rows[0].total > 0) return;
+
+        await db.execute(
+            'INSERT INTO notebook_pages (notebook_id, position, title) VALUES ($1, $2, $3)', [notebookId, 1, 'Untitled']
+        )
+    }
+
+    async getNotebookContent( notebookId: number ): Promise<NotebookContentModel> {
+        const db = await this.dbPromise;
+
+        const pageRows = await db.select<NotebookPageRow[]>(
+            'SELECT id, notebook_id, position, title FROM notebook_pages WHERE notebook_id = $1 ORDER BY position', [notebookId]
+        );
+
+        const textBoxRows = await db.select<TextBoxRow[]>(
+            'SELECT tb.id, tb.page_id, tb.x, tb.y, tb.width, tb.height, tb.content FROM text_boxes tb INNER JOIN notebook_pages p ON p.id = tb.page_id WHERE p.notebook_id = $1', [notebookId]
+        );
+
+        const pages: NotebookPageModel[] = pageRows.map(row => ({
+            id: row.id,
+            notebookId: row.notebook_id,
+            position: row.position,
+            title: row.title,
+        }));
+
+        const textBoxes: TextBoxModel[] = textBoxRows.map(row => ({
+            id: row.id,
+            pageId: row.page_id,
+            x: row.x,
+            y: row.y,
+            width: row.width,
+            height: row.height,
+            content: JSON.parse(row.content) as JSONContent,
+        }));
+        return { pages, textBoxes };
+    }
+
+    async saveTextBox(box: TextBoxModel): Promise<void> {
+        const db = await this.dbPromise;
+
+        await db.execute(
+            'INSERT INTO text_boxes (id, page_id, x, y, width, height, content) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT(id) DO UPDATE SET page_id = excluded.page_id, x = excluded.x, y = excluded.y, width = excluded.width, height = excluded.height, content = excluded.content', 
+            [
+                box.id,
+                box.pageId,
+                box.x,
+                box.y,
+                box.width,
+                box.height,
+                JSON.stringify(box.content),
+            ]
+        );
+    }
+
+    async deleteTextBox(id: string): Promise<void> {
+        const db = await this.dbPromise;
+
+        await db.execute(
+            'DELETE FROM text_boxes WHERE id = $1', [id]
+        );
     }
 }
