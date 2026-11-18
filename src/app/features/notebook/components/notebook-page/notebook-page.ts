@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   effect,
   inject,
@@ -70,6 +71,11 @@ export class NotebookPage {
   private readonly minWidth = 140;
   private readonly minHeight = 80;
 
+  // for save with delay
+  private destroyRef = inject(DestroyRef);
+  private saveTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  private readonly saveDelay = 500;
+
   // sicronize with local signal
   constructor() {
     effect(() => {
@@ -139,9 +145,26 @@ export class NotebookPage {
       })
     );
 
-    if (updatedBox) {
-      void this.persistTextBox(updatedBox);
+    if (!updatedBox) return;
+
+    // cancel last save
+    const previousTimer = this.saveTimers.get(id);
+
+    if (previousTimer) {
+      clearTimeout(previousTimer);
     }
+
+    const timer = setTimeout(() => {
+      this.saveTimers.delete(id);
+
+      const latestBox = this.textBoxes().find(box => box.id === id);
+
+      if (latestBox) {
+        void this.persistTextBox(latestBox);
+      }
+    }, this.saveDelay);
+
+    this.saveTimers.set(id, timer);
   }
 
   // receive height from tiptap
