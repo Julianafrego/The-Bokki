@@ -14,6 +14,7 @@
     <app-round-icon-button
       iconSrc="assets/white-arrow-back-icon.svg"
       ariaLabel="Página anterior"
+      [disabled]="currentPagePosition() === 1 "
       (clicked)="previousPage()"
     />
 
