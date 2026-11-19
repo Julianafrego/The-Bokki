@@ -45,6 +45,7 @@
           [title]="page.title"
           [pageNumber]="page.position"
           [initialTextBoxes]="getTextBoxesForPage(page.id)"
+          (textBoxesChange)="updateTextBoxes(page.id, $event)"
         />
       }
       <div

@@ -186,4 +186,14 @@ export class Notebook {
       this.previousPage();
     }
   }
+
+  updateTextBoxes(
+    pageId: number,
+    updatedBoxes: TextBoxModel[]
+  ): void {
+    this.textBoxes.update(currentBoxes => [
+      ...currentBoxes.filter(box => box.pageId !== pageId),
+      ...updatedBoxes,
+    ]);
+  }
 }

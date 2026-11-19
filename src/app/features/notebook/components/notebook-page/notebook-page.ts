@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -58,6 +59,8 @@ export class NotebookPage {
 
   textBoxes = signal<TextBoxModel[]>([]);
   initialTextBoxes = input<TextBoxModel[]>([]);
+  textBoxesChange = output<TextBoxModel[]>();
+
   private initializedFromInput = false;
 
   activeTextBoxId = signal<string | null>(null);
@@ -118,9 +121,16 @@ export class NotebookPage {
     console.log('Nova caixa criada:', newBox);
 
     this.textBoxes.update(boxes => [...boxes, newBox]);
+    this.notifyTextBoxesChange();
+
     this.activeTextBoxId.set(id);
 
     void this.persistTextBox(newBox);
+  }
+
+  // updated boxes lists
+  private notifyTextBoxesChange(): void {
+    this.textBoxesChange.emit(this.textBoxes());
   }
 
 
@@ -134,6 +144,7 @@ export class NotebookPage {
 
 
   updateTextBoxContent(id: string, content: JSONContent): void {
+    console.log('[1] Alteração recebida:', id, content);
     let updatedBox: TextBoxModel | undefined;
     
     this.textBoxes.update(boxes => 
@@ -146,6 +157,7 @@ export class NotebookPage {
     );
 
     if (!updatedBox) return;
+    this.notifyTextBoxesChange();
 
     // cancel last save
     const previousTimer = this.saveTimers.get(id);
@@ -351,6 +363,8 @@ export class NotebookPage {
       boxes.filter(box => box.id !== id)
     );
 
+    this.notifyTextBoxesChange();
+
     // clear height
     this.contentHeights.update(current => {
       const updated = { ...current };
@@ -426,6 +440,7 @@ export class NotebookPage {
 
     if (updatedBox) {
       void this.persistTextBox(updatedBox);
+      this.notifyTextBoxesChange();
     }
   }
 
@@ -433,7 +448,9 @@ export class NotebookPage {
 
   private async persistTextBox(box: TextBoxModel): Promise<void> {
     try {
+      console.log('[3] Enviando para SQLite:', box.id);
       await this.contentRepository.saveTextBox(box);
+      console.log('[4] Salvamento concluído:', box.id);
     } catch (error) {
       console.error('Could not save text box:', error);
     }
