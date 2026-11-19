@@ -2,41 +2,59 @@
   overflow-hidden [px-4 py-3 md:px-8 
    bg-[linear-gradient(180deg,var(--color-oak-100)_0%,var(--color-oak-200)_100%)]">
 
+<div class="relative flex mx-auto w-full items-center justify-between pb-2">
+
   <app-round-icon-button
     iconSrc="assets/white-shelf-icon.svg"
     ariaLabel="Voltar à estante"
     (clicked)="backPage()"
   />
 
-   <div class="flex w-full justify-center pb-2">
-      <app-search-bar/>
-   </div>
+  <div class="absolute flex left-1/2 -translate-x-1/2 items-center justify-center gap-3">
+    <app-round-icon-button
+      iconSrc="assets/white-arrow-back-icon.svg"
+      ariaLabel="Página anterior"
+      (clicked)="previousPage()"
+    />
 
-  <app-notebook-cover class="block w-full">
-    <div
-    class="relative mx-auto grid w-full min-w-0
-          grid-cols-1 gap-2
-          min-[1000px]:grid-cols-2
-          min-[1000px]:gap-0"
-    >
+    <!-- Pesquisa -->
+    <app-search-bar/>
 
-    @for (page of pages(); track page.id) {
-      <app-notebook-page
-        [pageId]="page.id"
-        [title]="page.title"
-        [pageNumber]="page.position"
-        [initialTextBoxes]="getTextBoxesForPage(page.id)"
-      />
-    }
-    <div
-      class="pointer-events-none absolute
-              left-1/2 top-0 bottom-0 z-10
-              hidden min-[1000px]:block
-              w-px -translate-x-1/2
-              bg-[#CFB994]"
-    ></div>
-    </div>
+    <!-- Próxima página -->
+    <app-round-icon-button
+      iconSrc="assets/white-arrow-forward-icon.svg"
+      ariaLabel="Próxima página"
+      (clicked)="nextPage()"
+    />
+  </div>
 
-  </app-notebook-cover>
+</div>
+
+    <app-notebook-cover class="block w-full">
+      <div
+      class="relative mx-auto grid w-full min-w-0
+            grid-cols-1 gap-2
+            min-[1000px]:grid-cols-2
+            min-[1000px]:gap-0"
+      >
+
+      @for (page of visiblePages(); track page.id) {
+        <app-notebook-page
+          [pageId]="page.id"
+          [title]="page.title"
+          [pageNumber]="page.position"
+          [initialTextBoxes]="getTextBoxesForPage(page.id)"
+        />
+      }
+      <div
+        class="pointer-events-none absolute
+                left-1/2 top-0 bottom-0 z-10
+                hidden min-[1000px]:block
+                w-px -translate-x-1/2
+                bg-[#CFB994]"
+      ></div>
+      </div>
+
+    </app-notebook-cover>
 
 </main>

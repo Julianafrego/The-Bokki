@@ -167,11 +167,38 @@ export class SqliteRepository implements NotebookRepository, NotebookContentRepo
             'SELECT COUNT(*) as total FROM notebook_pages where notebook_id = $1', [notebookId]
         );
 
-        if (rows[0].total > 0) return;
+        const total = rows[0].total;
 
-        await db.execute(
-            'INSERT INTO notebook_pages (notebook_id, position, title) VALUES ($1, $2, $3)', [notebookId, 1, 'Untitled']
-        )
+        if (total == 0 ) {
+            await this.createPage(notebookId);
+            await this.createPage(notebookId);
+            return;
+        }
+
+        if (total === 1) {
+            await this.createPage(notebookId);
+        }
+    }
+
+    async createPage(notebookId: number): Promise<NotebookPageModel> {
+        const db = await this.dbPromise;
+
+        const rows = await db.select<{next_position: number}[]>(
+            'SELECT COALESCE(MAX(position), 0) + 1 AS next_position FROM notebook_pages WHERE notebook_id = $1', [notebookId]
+        );
+        const position = rows[0].next_position;
+        const title = 'untitled';
+
+        const result = await db.execute(
+            'INSERT INTO notebook_pages (notebook_id, position, title) VALUES ($1, $2, $3)', [notebookId, position, title]
+        );
+
+        return {
+            id: result.lastInsertId as number,
+            notebookId,
+            position,
+            title,
+        };
     }
 
     async getNotebookContent( notebookId: number ): Promise<NotebookContentModel> {
