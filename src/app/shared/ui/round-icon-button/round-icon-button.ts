@@ -9,5 +9,6 @@ import { Component, input, output } from '@angular/core';
 export class RoundIconButton {
   iconSrc = input.required<string>();
   ariaLabel = input<string>('Voltar');
+  disabled = input(false);
   clicked = output<void>();
 }

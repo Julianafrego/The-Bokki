@@ -1,8 +1,33 @@
 <button
-      type="button"
-      (click)="clicked.emit()"
-      [attr.aria-label]="ariaLabel()"
-      class="absolute left-5 top-4 box-border flex h-[40px] w-[40px] items-center justify-center rounded-[20px] border-[0.8px] border-[#F3DDB8]/[0.45] bg-gradient-to-b from-[#D49A5C] to-[#B97E43] shadow-[0px_2px_6px_rgba(62,34,14,0.28)] transition-transform active:scale-95 cursor-pointer z-10"
-    >
-      <img [src]="iconSrc()" [alt]="ariaLabel()" class="w-5 h-5 object-contain" />
+  type="button"
+  (click)="clicked.emit()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  class="box-border flex h-10 w-10 shrink-0
+         items-center justify-center
+         rounded-full
+         border-[0.8px] border-[#F3DDB8]/[0.45]
+         bg-gradient-to-b from-[#D49A5C] to-[#B97E43]
+         shadow-[0px_2px_6px_rgba(62,34,14,0.28)]
+         transition-transform active:scale-95
+
+         transition-all duration-200 ease-out
+       hover:from-[#E0AC70] hover:to-[#C98B50]
+         hover:shadow-[0px_3px_8px_rgba(62,34,14,0.35)]
+         hover:-translate-y-[1px]
+
+         disabled:cursor-not-allowed
+       disabled:from-[#C8B39B] disabled:to-[#B5A18B]
+       disabled:border-[#D8C8B3]/[0.5]
+         disabled:shadow-none
+         disabled:opacity-60
+         disabled:transform-none
+
+         cursor-pointer"
+>
+  <img
+    [src]="iconSrc()"
+    [alt]="ariaLabel()"
+    class="h-5 w-5 object-contain"
+  />
 </button>
